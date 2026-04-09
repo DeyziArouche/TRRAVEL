@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRAVEL - Explore o Mundo</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body>
+
+    <div class="intro-layer">
+        <h1 id="intro-text">TRAVEL</h1>
+    </div>
+
+    <header>
+        <a href="#" class="brand">Travel</a>
+        <div class="menu-btn"></div>
+        <div class="navigation">
+            <div class="navigation-items">
+                <a href="#">Home</a>
+                <a href="#">Sobre</a>
+                <a href="#">Explora</a>
+                <a href="#">Galeria</a>
+                <a href="#">Contato</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="home">
+        <video class="video-slide active" autoplay muted loop playsinline><source src="video.mp4" type="video/mp4"></video>
+        <video class="video-slide" autoplay muted loop playsinline><source src="2.mp4" type="video/mp4"></video>
+        <video class="video-slide" autoplay muted loop playsinline><source src="3.mp4" type="video/mp4"></video>
+        <video class="video-slide" autoplay muted loop playsinline><source src="4.mp4" type="video/mp4"></video>
+        <video class="video-slide" autoplay muted loop playsinline><source src="5.mp4" type="video/mp4"></video>
+
+        <div class="content active">
+            <h1>Espetacular.<br><span>Ilha</span></h1>
+            <p>Onde o comum perde o fôlego. Descubra destinos que parecem pintados à mão.</p>
+            <a href="#">Veja Mais</a>
+        </div>
+
+        <div class="content">
+            <h1>Acampamento.<br><span>Aproveite</span></h1>
+            <p>Troque as cinco estrelas por um milhão delas. Sua próxima casa não tem paredes, tem horizontes.</p>
+            <a href="#">Veja Mais</a>
+        </div>
+
+        <div class="content">
+            <h1>Aventuras.<br><span>Fora da Estrada</span></h1>
+            <p>A vida começa onde termina a sua zona de conforto. Sinta o frio na barriga.</p>
+            <a href="#">Veja Mais</a>
+        </div>
+
+        <div class="content">
+            <h1>Viagem de Carro.<br><span>Juntos</span></h1>
+            <p>Na estrada, o destino é apenas um detalhe; o que importa é a história contada.</p>
+            <a href="#">Veja Mais</a>
+        </div>
+
+        <div class="content">
+            <h1>Sinta a Natureza.<br><span>Relaxe</span></h1>
+            <p>Permita-se ser parte do todo. Respire o ar puro que limpa a alma.</p>
+            <a href="#">Veja Mais</a>
+        </div>
+
+        <div class="media-icons">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+        </div>
+
+        <div class="slider-navigation">
+            <div class="nav-btn active"></div>
+            <div class="nav-btn"></div>
+            <div class="nav-btn"></div>
+            <div class="nav-btn"></div>
+            <div class="nav-btn"></div>
+        </div>
+    </section>
+
+    <script>
+    // Usa window.onload para garantir que tudo (incluindo GSAP) carregou
+    window.onload = () => {
+        const tl = gsap.timeline();
+
+        // 1. Animação da palavra TRAVEL crescendo
+        tl.to("#intro-text", {
+            scale: 150,
+            duration: 2,
+            ease: "power4.in",
+        })
+        // 2. O fade out da camada branca (intro-layer)
+        .to(".intro-layer", {
+            opacity: 0,
+            duration: 0.8,
+            onComplete: () => {
+                document.querySelector(".intro-layer").style.display = "none";
+            }
+        }, "-=0.5"); // Começa o fade um pouco antes do zoom acabar
+    };
+
+    // --- ABAIXO MANTÉM SEU CÓDIGO DO CARROSSEL E CLIP-PATH ---
+    const btns = document.querySelectorAll(".nav-btn");
+    const slides = document.querySelectorAll(".video-slide");
+    const contents = document.querySelectorAll(".content");
+
+    const sliderNav = (manual) => {
+        btns.forEach(btn => btn.classList.remove("active"));
+        contents.forEach(content => content.classList.remove("active"));
+        btns[manual].classList.add("active");
+        contents[manual].classList.add("active");
+
+        slides.forEach(slide => {
+            gsap.set(slide, { clipPath: "circle(0% at 0 50%)", zIndex: 0 });
+            slide.classList.remove("active");
+        });
+
+        slides[manual].classList.add("active");
+        gsap.to(slides[manual], {
+            clipPath: "circle(150% at 0 50%)",
+            duration: 1.4, 
+            ease: "power2.out",
+            zIndex: 1
+        });
+    }
+
+    btns.forEach((btn, i) => {
+        btn.addEventListener("click", () => { sliderNav(i); });
+    });
+</script>
+</body>
+</html>
